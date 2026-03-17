@@ -269,23 +269,23 @@
                 <button id="btn-reset" class="scenario-btn" style="background:#334155;color:#94a3b8;margin-left:0.5rem;display:none" onclick="resetScenario()">Reset</button>
             </div>
 
-            <!-- DEEL 4: INZICHT (b) - AI als sandbox-denker -->
+            <!-- DEEL 5: IMPACT - AI als autonome agent -->
             <div class="step" data-step="6">
+                <span class="dikw-badge dikw-impact">IMPACT</span>
+                <h2 class="text-2xl font-bold mb-4 text-rose-400">7. Van kennis naar actie</h2>
+                <p class="mb-4">Na goedkeuring handelt de AI <strong>zelfstandig</strong>. Ze belt de huisarts (medische overdrachtsinfo), het transportbedrijf (alleen tijdstip en locatie) en het behandelteam (volledige dossieroverdracht). Elke actor krijgt <em>alleen de informatie die bij hun rol hoort</em> &mdash; de ontologie bepaalt de grenzen.<a href="#fn2" class="footnote-ref" title="Palantir, 2025">2</a></p>
+                <p class="mb-4">Dit is geen toekomstmuziek. Het <strong>Gene Ontology Project</strong> bewijst het al sinds 1998: $3 miljard ge&iuml;nvesteerd, 700+ projecten. Zonder gedeeld vocabulaire praatten onderzoekers langs elkaar heen<a href="#fn3" class="footnote-ref" title="Beverly, 2024">3</a> &mdash; precies het probleem van Ziekenhuis A en Zorggroep B.</p>
+                <p class="text-slate-300">AI zonder ontologie is blind. Een ontologie zonder AI is traag. Samen brengen ze <strong>impact</strong>: van silos naar gedeelde taal, van data naar beslissingen.</p>
+            </div>
+
+            <!-- DEEL 4: INZICHT (b) - AI als sandbox-denker -->
+            <div class="step" data-step="7">
                 <span class="dikw-badge dikw-inzicht">INZICHT</span>
-                <h2 class="text-2xl font-bold mb-4 text-amber-400">7. Sandbox: wat als het misgaat?</h2>
+                <h2 class="text-2xl font-bold mb-4 text-amber-400">8. Sandbox: wat als het misgaat?</h2>
                 <p class="mb-4">De AI experimenteert in een <strong>sandbox</strong> &mdash; een veilige kopie van de ontologie. Niets raakt de echte planning. Pas na menselijke goedkeuring wordt het scenario &ldquo;gemerged&rdquo; naar productie.<a href="#fn2" class="footnote-ref" title="Palantir, 2025">2</a></p>
                 <p class="mb-4">Maar wat als een stap faalt? Bij een overplaatsing moeten bed vrijkomen, dossier overgedragen &eacute;n behandelteam ge&iuml;nformeerd &mdash; <em>tegelijk</em>. Faalt &eacute;&eacute;n stap, dan is de pati&euml;nt in een <strong>ongedefinieerde toestand</strong>. De ontologie garandeert met <strong>transacties</strong>: alles slaagt, of alles wordt teruggedraaid.</p>
                 <button id="btn-fail" class="scenario-btn btn-danger" onclick="runFailScenario()">&#9888; Simuleer storing</button>
                 <button id="btn-reset-fail" class="scenario-btn" style="background:#334155;color:#94a3b8;margin-left:0.5rem;display:none" onclick="resetScenario()">Reset</button>
-            </div>
-
-            <!-- DEEL 5: IMPACT - AI als autonome agent -->
-            <div class="step" data-step="7">
-                <span class="dikw-badge dikw-impact">IMPACT</span>
-                <h2 class="text-2xl font-bold mb-4 text-rose-400">8. Van kennis naar actie</h2>
-                <p class="mb-4">Na goedkeuring handelt de AI <strong>zelfstandig</strong>. Ze belt de huisarts (medische overdrachtsinfo), het transportbedrijf (alleen tijdstip en locatie) en het behandelteam (volledige dossieroverdracht). Elke actor krijgt <em>alleen de informatie die bij hun rol hoort</em> &mdash; de ontologie bepaalt de grenzen.<a href="#fn2" class="footnote-ref" title="Palantir, 2025">2</a></p>
-                <p class="mb-4">Dit is geen toekomstmuziek. Het <strong>Gene Ontology Project</strong> bewijst het al sinds 1998: $3 miljard ge&iuml;nvesteerd, 700+ projecten. Zonder gedeeld vocabulaire praatten onderzoekers langs elkaar heen<a href="#fn3" class="footnote-ref" title="Beverly, 2024">3</a> &mdash; precies het probleem van Ziekenhuis A en Zorggroep B.</p>
-                <p class="text-slate-300">AI zonder ontologie is blind. Een ontologie zonder AI is traag. Samen brengen ze <strong>impact</strong>: van silos naar gedeelde taal, van data naar beslissingen.</p>
             </div>
 
             <!-- DEEL 6: MULTI-AGENT -->
@@ -329,8 +329,8 @@
         <h3 class="text-lg font-bold text-slate-300 mb-4">Bronnen</h3>
         <ol>
             <li id="fn1"><strong>NIST (2020)</strong>: kosten niet-interoperabiliteit industriële datasets $21&ndash;43 miljard/jaar. McKinsey: midsize bedrijven $20&ndash;50M/jaar door informatiesilos.</li>
-            <li id="fn2"><strong>Palantir DevCon (2025)</strong>: &ldquo;Ontology Overview&rdquo; &amp; &ldquo;Ontology Foundations&rdquo; &mdash; ontologie als zelfstandige naamwoorden en werkwoorden van je bedrijf; digital twin; scenario&rsquo;s en transacties.</li>
-            <li id="fn3"><strong>Beverly, J. (2024)</strong>: &ldquo;Applied Ontology&rdquo; &mdash; University at Buffalo / National Center for Ontological Research. Over informatiesilos, Gene Ontology, en het expliciet maken van impliciete betekenis.</li>
+            <li id="fn2"><strong>Palantir DevCon (2025)</strong>: &ldquo;<a href="https://youtu.be/YDAxITCNcko?si=qpTElkwMDX_FykGt" target="_blank" style="color:#60a5fa">Ontology Overview</a>&rdquo; &amp; &ldquo;<a href="https://youtu.be/dz20P3j3GMc?si=h2hOZfvhUhvizdKo" target="_blank" style="color:#60a5fa">Ontology Foundations</a>&rdquo; &mdash; ontologie als zelfstandige naamwoorden en werkwoorden van je bedrijf; digital twin; scenario&rsquo;s en transacties.</li>
+            <li id="fn3"><strong>Beverly, J. (2024)</strong>: &ldquo;<a href="https://youtu.be/VH9uBxLJx30?si=vhVlZCgIZmWRhwmC" target="_blank" style="color:#60a5fa">Applied Ontology</a>&rdquo; &mdash; University at Buffalo / National Center for Ontological Research. Over informatiesilos, Gene Ontology, en het expliciet maken van impliciete betekenis.</li>
             <li id="fn4"><strong>Beverly, J.</strong>: Methodological Realism in ontology engineering &mdash; Basic Formal Ontology (BFO). &ldquo;Als je van woorden naar de wereld gaat, kom je nooit op dezelfde plek uit. Als je van de wereld naar woorden gaat, wel.&rdquo;</li>
             <li id="fn5"><strong>BFO &mdash; ISO 21838</strong>: Basic Formal Ontology, de enige ISO-standaard voor top-level ontologie&euml;n. 700+ projecten wereldwijd. Onderscheid klassen/instanties en relaties.</li>
         </ol>
@@ -1150,11 +1150,12 @@
                 nodes.on(".drag", null);
             },
 
-            // STAP 6: INZICHT - Transacties
+            // STAP 6: IMPACT - Van kennis naar actie (graaf zichtbaar)
             function step6() {
-                simulation.stop(); resetScenario();
+                simulation.stop(); resetScenario(); removeMultiAgentNodes();
                 domSvg.style.opacity = 1;
                 domDIKW.classList.remove("visible");
+                domTable.style.pointerEvents = "none";
 
                 positionNodesFixed();
                 updateLinksFixed();
@@ -1164,12 +1165,11 @@
                 nodes.on(".drag", null);
             },
 
-            // STAP 7: IMPACT - AI als autonome agent (graaf zichtbaar)
+            // STAP 7: INZICHT - Sandbox / Transacties
             function step7() {
                 simulation.stop(); resetScenario(); removeMultiAgentNodes();
                 domSvg.style.opacity = 1;
                 domDIKW.classList.remove("visible");
-                domTable.style.pointerEvents = "none";
 
                 positionNodesFixed();
                 updateLinksFixed();

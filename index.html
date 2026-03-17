@@ -237,7 +237,7 @@
                 <h2 class="text-2xl font-bold mb-4 text-blue-400">3. Betekenis toevoegen</h2>
                 <p class="mb-4">Een entiteit alleen is niet genoeg. De andere kolommen worden <strong>eigenschappen</strong> (<em>properties</em>). Zo &lsquo;weet&rsquo; het systeem dat A44 Orthopedie hoge invloed heeft.</p>
                 <p class="mb-4">Hier zit het <strong>aha-moment</strong>: de tabel bevat <em>impliciete</em> relaties die nergens formeel staan. Dat Orthopedie pati&euml;nten verwijst <em>via</em> het Transferpunt &mdash; een mens leest dat ertussen, een computer niet.<a href="#fn3" class="footnote-ref" title="Beverly, 2024">3</a></p>
-                <p class="text-slate-300 text-sm">Vraag 10 stakeholders hoe het verwijsproces werkt en je krijgt 10 antwoorden. Een ontologie dwingt je om vanuit de <em>wereld</em> te beginnen: wat gebeurt er werkelijk?<a href="#fn4" class="footnote-ref" title="Beverly - BFO">4</a></p>
+                <p class="text-slate-300 text-sm">Vraag 10 stakeholders hoe het verwijsproces werkt en je krijgt 10 antwoorden. Een ontologie dwingt je om vanuit de <em>wereld</em> te beginnen: wat gebeurt er werkelijk?<a href="#fn3" class="footnote-ref" title="Beverly, 2024">3</a></p>
             </div>
 
             <!-- DEEL 3: KENNIS (a) -->
@@ -245,7 +245,7 @@
                 <span class="dikw-badge dikw-kennis">KENNIS</span>
                 <h2 class="text-2xl font-bold mb-4 text-emerald-400">4. Verbindingen leggen</h2>
                 <p class="mb-4">Nu de belangrijkste stap: het leggen van <strong>relaties</strong> (<em>edges</em>) tussen entiteiten. Dit is waar data <em>kennis</em> wordt.</p>
-                <p class="mb-4">&lsquo;A44 Orthopedie&rsquo; is een <strong>instantie</strong> van de klasse &lsquo;Verwijzende afdeling&rsquo;. Het Transferpunt is een instantie van &lsquo;Co&ouml;rdinatiefunctie&rsquo;.<a href="#fn5" class="footnote-ref" title="Beverly - BFO ISO">5</a> De relatie <code>verwijst_pati&euml;nt_naar</code> verbindt ze formeel.</p>
+                <p class="mb-4">&lsquo;A44 Orthopedie&rsquo; is een <strong>instantie</strong> van de klasse &lsquo;Verwijzende afdeling&rsquo;. Het Transferpunt is een instantie van &lsquo;Co&ouml;rdinatiefunctie&rsquo;.<a href="#fn4" class="footnote-ref" title="BFO - ISO 21838">4</a> De relatie <code>verwijst_pati&euml;nt_naar</code> verbindt ze formeel.</p>
                 <p class="text-slate-400 text-sm">Klassen zijn categorie&euml;n, instanties zijn concrete gevallen. Dit onderscheid maakt een ontologie herbruikbaar over zorgketens heen.</p>
             </div>
 
@@ -253,7 +253,7 @@
             <div class="step" data-step="4">
                 <span class="dikw-badge dikw-kennis">KENNIS</span>
                 <h2 class="text-2xl font-bold mb-4 text-emerald-400">5. De kennisgraaf</h2>
-                <p class="mb-4">Het resultaat is een <strong>knowledge graph</strong>: machine-interpreteerbare vocabulaires die entiteiten en logische relaties beschrijven.<a href="#fn5" class="footnote-ref" title="Beverly - BFO ISO">5</a></p>
+                <p class="mb-4">Het resultaat is een <strong>knowledge graph</strong>: machine-interpreteerbare vocabulaires die entiteiten en logische relaties beschrijven.<a href="#fn4" class="footnote-ref" title="BFO - ISO 21838">4</a></p>
                 <p class="mb-4">Geen platte tabel meer, maar een dynamisch netwerk. Systemen kunnen nu berekenen wie de bottleneck is, wie de meeste invloed heeft, en hoe informatie stroomt.</p>
                 <p class="font-bold text-yellow-400">Sleep de bollen met je muis en zie hoe het netwerk reageert!</p>
             </div>
@@ -331,8 +331,7 @@
             <li id="fn1"><strong>NIST (2020)</strong>: kosten niet-interoperabiliteit industriële datasets $21&ndash;43 miljard/jaar. McKinsey: midsize bedrijven $20&ndash;50M/jaar door informatiesilos.</li>
             <li id="fn2"><strong>Palantir DevCon (2025)</strong>: &ldquo;<a href="https://youtu.be/YDAxITCNcko?si=qpTElkwMDX_FykGt" target="_blank" style="color:#60a5fa">Ontology Overview</a>&rdquo; &amp; &ldquo;<a href="https://youtu.be/dz20P3j3GMc?si=h2hOZfvhUhvizdKo" target="_blank" style="color:#60a5fa">Ontology Foundations</a>&rdquo; &mdash; ontologie als zelfstandige naamwoorden en werkwoorden van je bedrijf; digital twin; scenario&rsquo;s en transacties.</li>
             <li id="fn3"><strong>Beverly, J. (2024)</strong>: &ldquo;<a href="https://youtu.be/VH9uBxLJx30?si=vhVlZCgIZmWRhwmC" target="_blank" style="color:#60a5fa">Applied Ontology</a>&rdquo; &mdash; University at Buffalo / National Center for Ontological Research. Over informatiesilos, Gene Ontology, en het expliciet maken van impliciete betekenis.</li>
-            <li id="fn4"><strong>Beverly, J.</strong>: Methodological Realism in ontology engineering &mdash; Basic Formal Ontology (BFO). &ldquo;Als je van woorden naar de wereld gaat, kom je nooit op dezelfde plek uit. Als je van de wereld naar woorden gaat, wel.&rdquo;</li>
-            <li id="fn5"><strong>BFO &mdash; ISO 21838</strong>: Basic Formal Ontology, de enige ISO-standaard voor top-level ontologie&euml;n. 700+ projecten wereldwijd. Onderscheid klassen/instanties en relaties.</li>
+            <li id="fn4"><strong>BFO &mdash; ISO 21838</strong>: Basic Formal Ontology, de enige ISO-standaard voor top-level ontologie&euml;n. 700+ projecten wereldwijd. Onderscheid klassen/instanties en relaties.</li>
         </ol>
     </footer>
 

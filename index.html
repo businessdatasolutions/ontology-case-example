@@ -183,16 +183,76 @@
         }
         .footnotes ol { padding-left: 1.5rem; }
         .footnotes li { color: #94a3b8; font-size: 0.8rem; margin-bottom: 0.5rem; line-height: 1.5; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 767px) {
+            #scrolly {
+                flex-direction: column;
+                padding: 0;
+            }
+            article {
+                width: 100%;
+                max-width: 100%;
+                padding: 0 0.75rem;
+                margin-top: 0;
+                margin-bottom: 2rem;
+                order: 2;
+            }
+            .step {
+                margin: 0 0 60vh 0;
+                padding: 1rem;
+                overflow-wrap: break-word;
+            }
+            .step.is-active {
+                transform: none;
+            }
+            figure {
+                width: 100%;
+                height: 42vh;
+                min-height: 250px;
+                order: 1;
+                position: sticky;
+                top: 0;
+                z-index: 5;
+            }
+            #data-table-container {
+                width: 96%;
+                max-height: 38vh;
+                -webkit-overflow-scrolling: touch;
+            }
+            table { font-size: 0.7rem; }
+            th, td { padding: 0.4rem 0.5rem; }
+            #ai-chat {
+                width: min(200px, 55vw);
+                bottom: 8px;
+                left: 8px;
+                max-height: 25vh;
+            }
+            .ai-bubble { font-size: 0.7rem; padding: 6px 8px; }
+            #dikw-visual { width: 98%; height: 95%; }
+            .footnotes { padding: 2rem 1rem; }
+            .scenario-btn { padding: 0.5rem 0.9rem; font-size: 0.8rem; }
+        }
+
+        @media (max-width: 479px) {
+            .step { padding: 0.75rem; font-size: 0.9rem; }
+            .step h2 { font-size: 1.3rem; }
+            figure { height: 38vh; min-height: 220px; }
+            table { font-size: 0.6rem; }
+            th, td { padding: 0.25rem 0.35rem; }
+            #ai-chat { width: min(170px, 50vw); max-height: 22vh; }
+            .ai-bubble { font-size: 0.65rem; padding: 5px 7px; }
+        }
     </style>
 </head>
 <body>
 
     <!-- INLEIDING -->
-    <header class="min-h-screen flex flex-col justify-center items-center text-center p-8 max-w-4xl mx-auto">
+    <header class="min-h-screen flex flex-col justify-center items-center text-center p-4 md:p-8 max-w-4xl mx-auto">
         <span class="text-sm font-bold tracking-widest text-slate-400 uppercase mb-4">Van informatie naar ontologie</span>
         <h1 class="text-4xl md:text-5xl font-bold text-blue-400 mb-8">Waarom platte data niet meer genoeg is</h1>
 
-        <div class="text-left bg-slate-800 p-8 rounded-xl border border-slate-700 shadow-2xl">
+        <div class="text-left bg-slate-800 p-4 md:p-8 rounded-xl border border-slate-700 shadow-2xl">
             <h2 class="text-2xl font-bold text-emerald-400 mb-4">De casus</h2>
             <p class="mb-4 text-slate-200 leading-relaxed">
                 Het verwijsproces van pati&euml;nten met een <strong>Geriatrische Revalidatiezorg (GRZ)-indicatie</strong> loopt van <strong>Ziekenhuis A</strong> naar het herstelcentrum van <strong>Zorggroep B</strong>. Kwetsbare pati&euml;nten moeten veilig, tijdig en effici&euml;nt worden aangemeld, beoordeeld en overgeplaatst.
@@ -400,8 +460,41 @@
 
         // Setup D3 Canvas
         const container = document.querySelector('figure');
-        const width = container.clientWidth;
-        const height = container.clientHeight;
+        let width = container.clientWidth;
+        let height = container.clientHeight;
+
+        // Continuous scaling based on container size
+        function getScale() {
+            const w = container.clientWidth;
+            const h = container.clientHeight;
+            const minDim = Math.min(w, h);
+            const t = Math.max(0, Math.min(1, (minDim - 280) / 550)); // 0 at 280px, 1 at 830px+
+            return {
+                radiusScale:      0.45 + t * 0.55,
+                fontSize:         Math.round(9 + t * 5),
+                fontSizeProp:     Math.round(7 + t * 3),
+                labelOffset:      Math.round(8 + t * 7),
+                propOffset:       Math.round(16 + t * 19),
+                propRectH:        Math.round(15 + t * 5),
+                propWidthScale:   0.6 + t * 0.4,
+                linkDistance:      Math.round(55 + t * 95),
+                chargeStrength:   Math.round(-120 - t * 280),
+                collideExtra:     Math.round(12 + t * 28),
+                nodeSpacingY:     Math.max(30, h * 0.13),
+                managementY:      Math.min(h * 0.82, h - 60),
+                multiAgentRadius: Math.round(14 + t * 10),
+                floatingLabelSize: Math.round(9 + t * 2),
+                dikwPad:          Math.round(6 + t * 6),
+                dikwDotR:         Math.round(3 + t * 2),
+                dikwInset:        Math.round(10 + t * 10),
+                dikwTopOff:       Math.round(18 + t * 12),
+                dikwLabelSize:    Math.round(10 + t * 4),
+                initSpacingY:     Math.round(30 + t * 30),
+                initOffsetY:      Math.round(30 + t * 70),
+            };
+        }
+        let S = getScale();
+
         const svg = d3.select("#d3-canvas").attr("width", width).attr("height", height);
 
         svg.append("defs").append("marker")
@@ -426,16 +519,16 @@
         const nodes = nodeGroup.selectAll(".node")
             .data(nodesData).enter().append("g").attr("class", "node")
             .attr("transform", (d, i) => {
-                const x = width / 2, y = 100 + (i * 60);
+                const x = width / 2, y = S.initOffsetY + (i * S.initSpacingY);
                 d.x = x; d.y = y; d.baseX = x; d.baseY = y;
                 return `translate(${x},${y})`;
             }).style("opacity", 0);
 
-        nodes.append("circle").attr("r", d => d.radius).attr("fill", d => colorScale[d.group]);
+        nodes.append("circle").attr("r", d => d.radius * S.radiusScale).attr("fill", d => colorScale[d.group]);
 
-        nodes.append("text").attr("dx", 0).attr("dy", d => d.radius + 15)
+        nodes.append("text").attr("dx", 0).attr("dy", d => d.radius * S.radiusScale + S.labelOffset)
             .attr("text-anchor", "middle").attr("fill", "white")
-            .attr("font-size", "14px").attr("font-weight", "bold").text(d => d.id);
+            .attr("font-size", S.fontSize + "px").attr("font-weight", "bold").text(d => d.id);
 
         const propColors = {
             "Hoog": { bg: "#450a0a", stroke: "#dc2626", text: "#fca5a5", width: 85 },
@@ -444,26 +537,26 @@
         };
 
         const propsGroup = nodes.append("g").attr("class", "properties").style("opacity", 0);
-        propsGroup.append("rect").attr("x", 35).attr("y", -10)
-            .attr("width", d => propColors[d.invloed] ? propColors[d.invloed].width : 80).attr("height", 20).attr("rx", 4)
+        propsGroup.append("rect").attr("x", S.propOffset).attr("y", -8)
+            .attr("width", d => (propColors[d.invloed] ? propColors[d.invloed].width : 80) * S.propWidthScale).attr("height", S.propRectH).attr("rx", 4)
             .attr("fill", d => propColors[d.invloed] ? propColors[d.invloed].bg : "#1e293b")
             .attr("stroke", d => propColors[d.invloed] ? propColors[d.invloed].stroke : "#334155");
-        propsGroup.append("text").attr("dx", 40).attr("dy", 4)
+        propsGroup.append("text").attr("dx", S.propOffset + 5).attr("dy", 4)
             .attr("fill", d => propColors[d.invloed] ? propColors[d.invloed].text : "#94a3b8")
-            .attr("font-size", "10px").attr("font-weight", "500").text(d => `Invloed: ${d.invloed}`);
+            .attr("font-size", S.fontSizeProp + "px").attr("font-weight", "500").text(d => `Invloed: ${d.invloed}`);
 
         const links = linkGroup.selectAll(".link").data(linksData).enter().append("line")
             .attr("class", "link").attr("stroke-width", 2).attr("marker-end", "url(#arrowhead)").style("opacity", 0);
 
         const linkLabels = linkGroup.selectAll(".link-label").data(linksData).enter().append("text")
-            .attr("class", "link-label").attr("text-anchor", "middle").text(d => d.label).style("opacity", 0);
+            .attr("class", "link-label").attr("text-anchor", "middle").attr("font-size", S.fontSizeProp + "px").text(d => d.label).style("opacity", 0);
 
         // Force Simulation
         const simulation = d3.forceSimulation(nodesData)
-            .force("link", d3.forceLink(linksData).id(d => d.id).distance(150))
-            .force("charge", d3.forceManyBody().strength(-400))
+            .force("link", d3.forceLink(linksData).id(d => d.id).distance(S.linkDistance))
+            .force("charge", d3.forceManyBody().strength(S.chargeStrength))
             .force("center", d3.forceCenter(width / 2, height / 2))
-            .force("collide", d3.forceCollide().radius(d => d.radius + 40))
+            .force("collide", d3.forceCollide().radius(d => d.radius * S.radiusScale + S.collideExtra))
             .stop();
 
         function ticked() {
@@ -496,9 +589,9 @@
             let xOff = w / 2, yOff = h / 2;
             if (d.id === "Transferpunt") { xOff = w * 0.38; yOff = h * 0.35; }
             else if (d.id === "Opname ZGB") { xOff = w * 0.65; yOff = h * 0.35; }
-            else if (d.group === "ZHA" && d.type === "Ward") { xOff = w * 0.12; yOff = (h * 0.15) + ((i - 1) * Math.min(130, h * 0.18)); }
+            else if (d.group === "ZHA" && d.type === "Ward") { xOff = w * 0.12; yOff = (h * 0.15) + ((i - 1) * S.nodeSpacingY); }
             else if (d.id === "Behandelteam ZGB") { xOff = w * 0.88; yOff = h * 0.35; }
-            else if (d.group === "MGT") { xOff = d.id.includes("Ziekenhuis") ? w * 0.3 : w * 0.7; yOff = Math.min(750, h * 0.85); }
+            else if (d.group === "MGT") { xOff = d.id.includes("Ziekenhuis") ? w * 0.3 : w * 0.7; yOff = S.managementY; }
             return { x: xOff, y: yOff };
         }
 
@@ -567,9 +660,9 @@
             const node = nodesData.find(n => n.id === nodeId);
             if (!node) return;
             svg.append("text").attr("class", "floating-label scenario-label")
-                .attr("x", node.x).attr("y", node.y - node.radius - 12)
+                .attr("x", node.x).attr("y", node.y - node.radius * S.radiusScale - S.labelOffset)
                 .attr("text-anchor", "middle").attr("fill", color)
-                .attr("font-size", "11px").attr("font-weight", "600")
+                .attr("font-size", S.floatingLabelSize + "px").attr("font-weight", "600")
                 .text(text).style("opacity", 0)
                 .transition().duration(300).style("opacity", 1);
         }
@@ -721,8 +814,8 @@
             // Posities voor nieuwe organisaties
             const tpNode = nodesData.find(n => n.id === "Transferpunt");
             const newOrgs = [
-                { id: "Opname ZGC", label: "Zorggroep C", group: "ZGC", x: width * 0.75, y: height * 0.18, r: 24 },
-                { id: "Opname ZGD", label: "Zorggroep D", group: "ZGD", x: width * 0.82, y: height * 0.55, r: 24 }
+                { id: "Opname ZGC", label: "Zorggroep C", group: "ZGC", x: width * 0.75, y: height * 0.18, r: S.multiAgentRadius },
+                { id: "Opname ZGD", label: "Zorggroep D", group: "ZGD", x: width * 0.82, y: height * 0.55, r: S.multiAgentRadius }
             ];
 
             const delay = 1000;
@@ -746,8 +839,8 @@
                     .attr("transform", `translate(${tpNode.x},${tpNode.y})`).style("opacity", 0);
                 g.append("circle").attr("r", org.r).attr("fill", multiAgentColors[org.group])
                     .attr("stroke", "#fff").attr("stroke-width", 2);
-                g.append("text").attr("dy", org.r + 15).attr("text-anchor", "middle")
-                    .attr("fill", "white").attr("font-size", "13px").attr("font-weight", "bold").text(org.label);
+                g.append("text").attr("dy", org.r + S.labelOffset).attr("text-anchor", "middle")
+                    .attr("fill", "white").attr("font-size", S.fontSize + "px").attr("font-weight", "bold").text(org.label);
                 g.transition().duration(600).style("opacity", 1)
                     .attr("transform", `translate(${org.x},${org.y})`);
                 multiAgentElements.push(g);
@@ -770,8 +863,8 @@
                     .attr("transform", `translate(${tpNode.x},${tpNode.y})`).style("opacity", 0);
                 g.append("circle").attr("r", org.r).attr("fill", multiAgentColors[org.group])
                     .attr("stroke", "#fff").attr("stroke-width", 2);
-                g.append("text").attr("dy", org.r + 15).attr("text-anchor", "middle")
-                    .attr("fill", "white").attr("font-size", "13px").attr("font-weight", "bold").text(org.label);
+                g.append("text").attr("dy", org.r + S.labelOffset).attr("text-anchor", "middle")
+                    .attr("fill", "white").attr("font-size", S.fontSize + "px").attr("font-weight", "bold").text(org.label);
                 g.transition().duration(600).style("opacity", 1)
                     .attr("transform", `translate(${org.x},${org.y})`);
                 multiAgentElements.push(g);
@@ -811,14 +904,14 @@
         // =============================================
 
         function buildDIKWVisual() {
-            const svgW = width * 0.92, svgH = height * 0.88;
+            const svgW = width * 0.95, svgH = height * 0.92;
             const dikwSvg = d3.select("#dikw-svg").attr("width", svgW).attr("height", svgH);
 
             const cols = 3, rows = 2;
-            const pad = 12, gap = 10;
+            const pad = S.dikwPad, gap = Math.max(4, pad - 2);
             const cellW = (svgW - pad * 2 - gap * (cols - 1)) / cols;
-            const cellH = (svgH - pad * 2 - gap * (rows - 1) - 30) / rows;
-            const dotR = 5;
+            const cellH = (svgH - pad * 2 - gap * (rows - 1) - 20) / rows;
+            const dotR = S.dikwDotR;
             const dotColors = ["#3b82f6", "#10b981", "#1e40af", "#22d3ee"];
             const yellow = "#facc15";
 
@@ -838,7 +931,7 @@
 
             // Map relatieve posities naar absolute cel-coordinaten
             function cellDots(x, y, w, h) {
-                const inset = 20, topOff = 30;
+                const inset = S.dikwInset, topOff = S.dikwTopOff;
                 return relDots.map(d => ({
                     x: x + inset + d.rx * (w - inset * 2),
                     y: y + topOff + inset + d.ry * (h - topOff - inset * 2)
@@ -893,8 +986,8 @@
                     .attr("fill", "#1e293b").attr("stroke", "#475569").attr("stroke-width", 1.5);
 
                 // Label
-                g.append("text").attr("x", x + 14).attr("y", y + 22)
-                    .attr("fill", "#e2e8f0").attr("font-size", "14px").attr("font-weight", "700")
+                g.append("text").attr("x", x + pad + 2).attr("y", y + S.dikwTopOff - 4)
+                    .attr("fill", "#e2e8f0").attr("font-size", S.dikwLabelSize + "px").attr("font-weight", "700")
                     .attr("font-style", "italic").text(p.label);
 
                 if (pi === 0) {
@@ -1027,9 +1120,9 @@
             });
 
             // Ondertitel
-            dikwSvg.append("text").attr("x", svgW / 2).attr("y", svgH - 8)
+            dikwSvg.append("text").attr("x", svgW / 2).attr("y", svgH - 4)
                 .attr("text-anchor", "middle").attr("fill", "#64748b")
-                .attr("font-size", "12px").attr("font-style", "italic")
+                .attr("font-size", Math.max(8, S.dikwLabelSize - 2) + "px").attr("font-style", "italic")
                 .text("Van losse datapunten naar gestructureerde impact — de reis die je zojuist hebt doorlopen.");
         }
 
@@ -1224,13 +1317,53 @@
         stepElements.forEach(step => observer.observe(step));
         steps[0]();
 
-        // Responsive
+        // Responsive resize with debounce
+        let resizeTimer;
         window.addEventListener('resize', () => {
-            const nw = container.clientWidth, nh = container.clientHeight;
-            svg.attr("width", nw).attr("height", nh);
-            simulation.force("center", d3.forceCenter(nw / 2, nh / 2));
-            const active = document.querySelector('.step.is-active');
-            if (active && active.getAttribute('data-step') === '4') simulation.alpha(0.3).restart();
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                width = container.clientWidth;
+                height = container.clientHeight;
+                S = getScale();
+
+                svg.attr("width", width).attr("height", height);
+
+                // Update node visuals
+                nodes.select("circle").attr("r", d => d.radius * S.radiusScale);
+                nodes.select("text")
+                    .attr("font-size", S.fontSize + "px")
+                    .attr("dy", d => d.radius * S.radiusScale + S.labelOffset);
+
+                // Update link labels
+                linkLabels.attr("font-size", S.fontSizeProp + "px");
+
+                // Update property badges
+                propsGroup.select("rect")
+                    .attr("x", S.propOffset)
+                    .attr("width", d => (propColors[d.invloed] ? propColors[d.invloed].width : 80) * S.propWidthScale)
+                    .attr("height", S.propRectH);
+                propsGroup.select("text")
+                    .attr("dx", S.propOffset + 5)
+                    .attr("font-size", S.fontSizeProp + "px");
+
+                // Update simulation forces
+                simulation
+                    .force("link", d3.forceLink(linksData).id(d => d.id).distance(S.linkDistance))
+                    .force("charge", d3.forceManyBody().strength(S.chargeStrength))
+                    .force("center", d3.forceCenter(width / 2, height / 2))
+                    .force("collide", d3.forceCollide().radius(d => d.radius * S.radiusScale + S.collideExtra));
+
+                // Rebuild DIKW visual
+                d3.select("#dikw-svg").selectAll("*").remove();
+                buildDIKWVisual();
+
+                // Re-trigger active step
+                const active = document.querySelector('.step.is-active');
+                if (active) {
+                    const idx = parseInt(active.getAttribute('data-step'));
+                    if (steps[idx]) steps[idx]();
+                }
+            }, 200);
         });
 
     </script>
